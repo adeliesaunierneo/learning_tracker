@@ -3,13 +3,12 @@
 namespace App\Form;
 
 use App\Entity\ExerciseAttempt;
+use App\Validator\Constraint\ValidAttemptAnswer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Length;
 
 class ExerciseAttemptType extends AbstractType
 {
@@ -27,11 +26,11 @@ class ExerciseAttemptType extends AbstractType
             ->add('isCorrect', ChoiceType::class, [
                 'label'    => 'Comment tu t\'en es sortie ?',
                 'required' => false,
-                'expanded' => true,  // affiche des radio buttons
+                'expanded' => true,
                 'multiple' => false,
                 'choices'  => [
-                    'J\'ai réussi'  => true,
-                    'Pas encore'    => false,
+                    'J\'ai réussi' => true,
+                    'Pas encore'   => false,
                 ],
             ])
             ->add('notes', TextareaType::class, [
@@ -49,6 +48,10 @@ class ExerciseAttemptType extends AbstractType
     {
         $resolver->setDefaults([
                                    'data_class' => ExerciseAttempt::class,
+                                   // contrainte de classe s'applique sur le formulaire entier
+                                   'constraints' => [
+                                       new ValidAttemptAnswer(),
+                                   ],
                                ]);
     }
 }

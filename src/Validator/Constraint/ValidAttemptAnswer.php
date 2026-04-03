@@ -2,6 +2,7 @@
 
 namespace App\Validator\Constraint;
 
+use App\Validator\ValidAttemptAnswerValidator;
 use Symfony\Component\Validator\Constraint;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
@@ -15,8 +16,8 @@ class ValidAttemptAnswer extends Constraint
     public int $maxNotesLength  = 2000;
 
     // Contrainte de classe qui valide l'objet entier
-    public function getTargets(): string
+    public function validatedBy(): string
     {
-        return self::CLASS_CONSTRAINT;
+        return ValidAttemptAnswerValidator::class;
     }
 }

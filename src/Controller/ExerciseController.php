@@ -52,7 +52,7 @@ class ExerciseController extends AbstractController
 
         $currentQuestion = $questions[$position - 1];
 
-        // Le service gère la logique de récupération/création
+        //  récupération/création
         $attempt = $this->attemptService->getOrCreateAttempt($currentQuestion);
 
         // Le FormType gère la structure et la validation
@@ -64,7 +64,7 @@ class ExerciseController extends AbstractController
             $this->attemptService->saveAttempt($attempt);
             $this->addFlash('success', 'Réponse sauvegardée !');
 
-            // Navigation automatique vers la question suivante
+            // Navigation vers la question suivante
             $nextPosition = $position < $total ? $position + 1 : $position;
 
             return $this->redirectToRoute('exercise_question', [
@@ -93,9 +93,9 @@ class ExerciseController extends AbstractController
         $progression = $this->attemptService->getProgressionForExercise($questions);
 
         return $this->render('exercise/review.html.twig', [
-            'exercise'   => $exercise,
-            'questions'  => $questions,
-            'progression' => $progression,
+            'exercise'      => $exercise,
+            'questions'     => $questions,
+            'progression'   => $progression,
         ]);
     }
 }
