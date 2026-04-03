@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\DqlSubject;
 use App\Entity\PhpSubject;
 use App\Entity\SymfonySubject;
 use App\Entity\PostgresqlSubject;
@@ -51,6 +52,19 @@ class SubjectFixtures extends Fixture
         $pg->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($pg);
         $this->addReference('subject-postgresql', $pg);
+
+        $dql = new DqlSubject();
+        $dql->setTitle('DQL');
+        $dql->setSlug('dql');
+        $dql->setDescription('Doctrine Query Language — SQL orienté objets');
+        $dql->setHasJoins(false);
+        $dql->setHasSubqueries(false);
+        $dql->setHasAggregations(false);
+        $dql->setHasQueryBuilder(false);
+        $dql->setCreatedAt(new \DateTimeImmutable());
+        $dql->setUpdatedAt(new \DateTimeImmutable());
+        $manager->persist($dql);
+        $this->addReference('subject-dql', $dql);
 
         $manager->flush();
     }

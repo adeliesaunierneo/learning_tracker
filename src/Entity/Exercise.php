@@ -44,9 +44,16 @@ class Exercise
     #[ORM\ManyToMany(targetEntity: Skill::class, mappedBy: 'exercises')]
     private Collection $skills;
 
+    /**
+     * @var Collection<int, Document>
+     */
+    #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'exercise')]
+    private Collection $documents;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,6 +174,36 @@ class Exercise
     {
         if ($this->skills->removeElement($skill)) {
             $skill->removeExercise($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Document>
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): static
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setExercise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): static
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getExercise() === $this) {
+                $document->setExercise(null);
+            }
         }
 
         return $this;

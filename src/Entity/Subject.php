@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
     'php'        => PhpSubject::class,
     'symfony'    => SymfonySubject::class,
     'postgresql' => PostgresqlSubject::class,
-//    'dql'        => DqlSubject::class,
+    'dql'        => DqlSubject::class,
 ])]
 abstract class Subject
 {
@@ -50,10 +50,17 @@ abstract class Subject
     #[ORM\OneToMany(targetEntity: Exercise::class, mappedBy: 'subject', orphanRemoval: true)]
     private Collection $exercises;
 
+    /**
+     * @var Collection<int, Document>
+     */
+    #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'subject')]
+    private Collection $documents;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
         $this->exercises = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,6 +189,36 @@ abstract class Subject
             // set the owning side to null (unless already changed)
             if ($exercise->getSubject() === $this) {
                 $exercise->setSubject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Document>
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): static
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): static
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getSubject() === $this) {
+                $document->setSubject(null);
             }
         }
 
