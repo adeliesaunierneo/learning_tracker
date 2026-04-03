@@ -36,7 +36,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
         $ex1->addSkill($this->getReference('skill-subject-php-0', Skill::class));
         $ex1->addSkill($this->getReference('skill-subject-php-4', Skill::class));
         $manager->persist($ex1);
-
+        $this->addReference('exercise-php', $ex1);
         // Exercice PHP 2
         $ex2 = new Exercise();
         $ex2->setTitle('Parser un fichier XSD et valider un XML');
@@ -52,6 +52,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
         $ex2->addSkill($this->getReference('skill-subject-php-2', Skill::class));
         $ex2->addSkill($this->getReference('skill-subject-php-3', Skill::class));
         $manager->persist($ex2);
+        $this->addReference('exercise-php-2', $ex2);
 
         // Exercice Symfony 1
         $ex3 = new Exercise();
@@ -68,6 +69,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
         $ex3->setCreatedAt(new \DateTimeImmutable());
         $ex3->addSkill($this->getReference('skill-subject-symfony-0', Skill::class));
         $manager->persist($ex3);
+        $this->addReference('exercise-symfony', $ex3);
 
         // Exercice PostgreSQL 1
         $ex4 = new Exercise();
@@ -84,6 +86,7 @@ class ExerciseFixtures extends Fixture implements DependentFixtureInterface
         $ex4->addSkill($this->getReference('skill-subject-postgresql-0', Skill::class));
         $ex4->addSkill($this->getReference('skill-subject-postgresql-1', Skill::class));
         $manager->persist($ex4);
+        $this->addReference('exercise-postgresql', $ex4);
 
         $manager->flush();
     }

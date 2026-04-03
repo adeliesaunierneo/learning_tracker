@@ -1,3 +1,105 @@
-body {
-    background-color: skyblue;
-}
+/* ── Layout ─────────────────────────────────────────── */
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+.page-header { margin-bottom: 2rem; }
+.page-header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+.subtitle { color: #666; }
+.breadcrumb { color: #666; text-decoration: none; font-size: 0.9rem; }
+.breadcrumb:hover { color: #333; }
+
+/* ── Boutons ─────────────────────────────────────────── */
+.btn { display: inline-block; padding: 0.5rem 1rem; border-radius: 6px;
+    text-decoration: none; border: none; cursor: pointer; font-size: 0.95rem; }
+.btn-primary   { background: #5B4FBE; color: white; }
+.btn-secondary { background: #eee; color: #333; }
+.btn-success   { background: #0F6E56; color: white; }
+.btn-outline   { background: transparent; border: 1px solid #ccc; color: #333; }
+.btn-hint      { background: #FAEEDA; color: #BA7517; border: 1px solid #BA7517; }
+.btn-correction{ background: #EAF3DE; color: #3B6D11; border: 1px solid #3B6D11; }
+.btn-small     { padding: 0.25rem 0.6rem; font-size: 0.85rem; }
+.btn:hover     { opacity: 0.85; }
+
+/* ── Cards exercices ────────────────────────────────── */
+.exercise-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+.exercise-card { background: white; border: 1px solid #ddd; border-radius: 12px;
+    padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.card-header   { display: flex; justify-content: space-between; align-items: center; }
+.card-title    { font-size: 1.1rem; font-weight: 600; margin: 0; }
+.card-meta     { display: flex; gap: 1rem; color: #666; font-size: 0.9rem; }
+.card-actions  { display: flex; gap: 0.75rem; margin-top: auto; }
+.subject-badge { background: #EEEDFE; color: #5B4FBE; padding: 0.2rem 0.6rem;
+    border-radius: 20px; font-size: 0.85rem; font-weight: 500; }
+
+/* ── En-tête exercice ───────────────────────────────── */
+.exercise-header { margin-bottom: 1.5rem; }
+.exercise-meta h1 { font-size: 1.6rem; margin: 0.5rem 0; }
+
+/* ── Documents liés ─────────────────────────────────── */
+.docs-panel { background: #E6F1FB; border-left: 4px solid #185FA5;
+    padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
+.docs-panel h3 { margin: 0 0 0.5rem; font-size: 1rem; color: #185FA5; }
+.docs-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.docs-list a { color: #185FA5; text-decoration: none; }
+.docs-list a:hover { text-decoration: underline; }
+.doc-desc { color: #666; font-size: 0.9rem; }
+
+/* ── Barre de progression ───────────────────────────── */
+.progress-bar-wrap { position: relative; background: #eee; border-radius: 20px;
+    height: 8px; margin: 1.5rem 0; }
+.progress-bar { background: #5B4FBE; height: 8px; border-radius: 20px; transition: width 0.3s; }
+.progress-label { position: absolute; right: 0; top: -1.4rem;
+    font-size: 0.85rem; color: #666; }
+
+/* ── Flash messages ─────────────────────────────────── */
+.flash { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; }
+.flash-success { background: #EAF3DE; color: #3B6D11; border: 1px solid #3B6D11; }
+
+/* ── Carte question ─────────────────────────────────── */
+.question-card { background: white; border: 1px solid #ddd; border-radius: 12px;
+    padding: 2rem; margin-bottom: 1.5rem; }
+.question-number { color: #5B4FBE; font-weight: 600; margin-bottom: 0.75rem; }
+.question-text { font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+/* ── Formulaire ─────────────────────────────────────── */
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 0.4rem; }
+.form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #ccc;
+    border-radius: 8px; font-family: 'Courier New', monospace;
+    font-size: 0.95rem; resize: vertical; box-sizing: border-box; }
+.self-eval { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem; }
+.self-eval p { margin: 0; font-weight: 500; }
+.self-eval label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+
+/* ── Indice et correction ───────────────────────────── */
+.hint-toggle, .correction-toggle { margin-top: 1.25rem; }
+.hint-box { background: #FAEEDA; border-left: 4px solid #BA7517;
+    padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin-top: 0.75rem; }
+.correction-box { background: #EAF3DE; border-left: 4px solid #3B6D11;
+    padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin-top: 0.75rem; }
+.correction-box pre { margin: 0; overflow-x: auto; }
+.correction-box code { font-size: 0.9rem; }
+
+/* ── Navigation questions ───────────────────────────── */
+.question-nav { display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1.5rem; }
+
+/* ── Révision ───────────────────────────────────────── */
+.review-summary { display: flex; gap: 2rem; background: #f9f9f9;
+    border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 2rem; }
+.summary-stat { text-align: center; }
+.stat-number { display: block; font-size: 2rem; font-weight: 700; color: #5B4FBE; }
+.stat-label { font-size: 0.85rem; color: #666; }
+.review-card { background: white; border: 1px solid #ddd; border-radius: 12px;
+    padding: 1.5rem; margin-bottom: 1rem; }
+.review-card.success { border-left: 4px solid #0F6E56; }
+.review-card.failed  { border-left: 4px solid #993C1D; }
+.review-card.pending { border-left: 4px solid #BA7517; }
+.review-card-header  { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.q-number { background: #5B4FBE; color: white; padding: 0.2rem 0.6rem;
+    border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+.q-status { flex: 1; font-weight: 500; }
+.review-question { font-size: 1rem; margin-bottom: 0.75rem; color: #333; }
+.review-answer, .review-notes { margin-top: 0.75rem; font-size: 0.9rem; }
+.review-answer pre { background: #f4f6f8; padding: 0.75rem; border-radius: 6px;
+    overflow-x: auto; margin: 0.5rem 0 0; }
+.review-correction { margin-top: 1rem; }
+.review-actions { text-align: center; margin-top: 2rem; }

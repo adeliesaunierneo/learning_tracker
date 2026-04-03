@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ exercise.title }} — Question {{ position }}/{{ total }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        {# En-tête de l'exercice #}
+        <div class="exercise-header">
+            <div class="exercise-meta">
+                <a href="{{ path('exercise_index') }}" class="breadcrumb">← Tous les exercices</a>
+                <h1>{{ exercise.title }}</h1>
+                <span class="subject-badge">{{ exercise.subject.title }}</span>
+            </div>
+
+            {# Documents liés #}
+            {% if exercise.documents|length > 0 %}
+                <div class="docs-panel">
+                    <h3>📄 Documents utiles pour cet exercice</h3>
+                    <ul class="docs-list">
+                        {% for link in exercise.documents %}
+                            <li>
+                                <a href="{{ asset(link.document.filePath) }}" target="_blank">
+                                    📎 {{ link.document.originalName }}
+                                </a>
+                                {% if link.description %}
+                                    <span class="doc-desc">— {{ link.description }}</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+        {# Barre de progression #}
+        <div class="progress-bar-wrap">
+            <div class="progress-bar" style="width: {{ (position / total * 100)|round }}%"></div>
+            <span class="progress-label">Question {{ position }} / {{ total }}</span>
+        </div>
+
+        {# Messages flash #}
+        {% for message in app.flashes('success') %}
+            <div class="flash flash-success">{{ message }}</div>
+        {% endfor %}
+
+        {# Carte question #}
+        <div class="question-card">
+
+            <div class="question-number">Question {{ position }}</div>
+
+            <div class="question-text">
+                {{ question.questionText }}
+            </div>
+
+            {# Indice #}
+            {% if question.hint %}
+                <div class="hint-toggle">
+                    <button onclick="toggleHint()" class="btn btn-hint">💡 Afficher l'indice</button>
+                    <div id="hint-box" class="hint-box" style="display:none">
+                        {{ question.hint }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {# ExerciseAttemptType #}
+            {{ form_start(form, {attr: {class: 'attempt-form'}}) }}
+
+            <div class="form-group">
+                {{ form_label(form.answer) }}
+                {{ form_widget(form.answer) }}
+                {{ form_errors(form.answer) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.isCorrect) }}
+                {{ form_widget(form.isCorrect) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.notes) }}
+                {{ form_widget(form.notes) }}
+                {{ form_errors(form.notes) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+
+            {{ form_end(form) }}
+
+        {# Navigation entre questions #}
+        <div class="question-nav">
+            {% if hasPrev %}
+                <a href="{{ path('exercise_question', {id: exercise.id, position: position - 1}) }}"
+                   class="btn btn-secondary">← Question précédente</a>
+            {% else %}
+                <span></span>
+            {% endif %}
+
+            <a href="{{ path('exercise_review', {id: exercise.id}) }}"
+               class="btn btn-outline">Vue d'ensemble</a>
+
+            {% if hasNext %}
+                <a href="{{ path('exercise_question', {id: exercise.id, position: position + 1}) }}"
+                   class="btn btn-primary">Question suivante →</a>
+            {% else %}
+                <a href="{{ path('exercise_review', {id: exercise.id}) }}"
+                   class="btn btn-success">Terminer l'exercice</a>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <script>
+        function toggleHint() {
+            const box = document.getElementById('hint-box');
+            box.style.display = box.style.display === 'none' ? 'block' : 'none';
+        }
+        function toggleCorrection() {
+            const box = document.getElementById('correction-box');
+            box.style.display = box.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+{% endblock %}

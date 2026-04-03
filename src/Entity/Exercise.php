@@ -50,10 +50,17 @@ class Exercise
     #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'exercise')]
     private Collection $documents;
 
+    /**
+     * @var Collection<int, ExerciseQuestion>
+     */
+    #[ORM\OneToMany(targetEntity: ExerciseQuestion::class, mappedBy: 'exercise', orphanRemoval: true)]
+    private Collection $exerciseQuestions;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->exerciseQuestions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,6 +210,36 @@ class Exercise
             // set the owning side to null (unless already changed)
             if ($document->getExercise() === $this) {
                 $document->setExercise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ExerciseQuestion>
+     */
+    public function getExerciseQuestion(): Collection
+    {
+        return $this->exerciseQuestions;
+    }
+
+    public function addExerciseQuestion(ExerciseQuestion $exerciseQuestion): static
+    {
+        if (!$this->exerciseQuestions->contains($exerciseQuestion)) {
+            $this->exerciseQuestions->add($exerciseQuestion);
+            $exerciseQuestion->setExercise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExerciseQuestions(ExerciseQuestion $exerciseQuestion): static
+    {
+        if ($this->exerciseQuestions->removeElement($exerciseQuestion)) {
+            // set the owning side to null (unless already changed)
+            if ($exerciseQuestion->getExercise() === $this) {
+                $exerciseQuestion->setExercise(null);
             }
         }
 

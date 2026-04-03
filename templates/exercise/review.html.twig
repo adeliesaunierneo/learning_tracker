@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Révision — {{ exercise.title }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="page-header">
+            <a href="{{ path('exercise_index') }}" class="breadcrumb">← Tous les exercices</a>
+            <h1>Révision : {{ exercise.title }}</h1>
+            <p class="subtitle">{{ exercise.subject.title }} · {{ exercise.estimatedMinutes }} min · {{ questions|length }} questions</p>
+        </div>
+
+        {# Résumé de progression #}
+        {% set done = 0 %}
+        {% for q in questions %}
+            {% if q.attempts|length > 0 and q.attempts|first.isCorrect %}
+                {% set done = done + 1 %}
+            {% endif %}
+        {% endfor %}
+
+        <div class="review-summary">
+            <div class="summary-stat">
+                <span class="stat-number">{{ done }}</span>
+                <span class="stat-label">Réussies</span>
+            </div>
+            <div class="summary-stat">
+                <span class="stat-number">{{ questions|length - done }}</span>
+                <span class="stat-label">À revoir</span>
+            </div>
+            <div class="summary-stat">
+                <span class="stat-number">{{ done > 0 ? (done / questions|length * 100)|round : 0 }}%</span>
+                <span class="stat-label">Progression</span>
+            </div>
+        </div>
+
+        {# Liste de toutes les questions #}
+        {% for question in questions %}
+            {% set attempt = question.attempts|length > 0 ? question.attempts|first : null %}
+            <div class="review-card {{ attempt ? (attempt.isCorrect ? 'success' : 'failed') : 'pending' }}">
+
+                <div class="review-card-header">
+                    <span class="q-number">Q{{ loop.index }}</span>
+                    <span class="q-status">
+                {% if attempt %}
+                    {{ attempt.isCorrect ? '✅ Réussie' : '❌ À revoir' }}
+                {% else %}
+                    ⏳ Non tentée
+                {% endif %}
+            </span>
+                    <a href="{{ path('exercise_question', {id: exercise.id, position: loop.index}) }}"
+                       class="btn btn-small">Modifier</a>
+                </div>
+
+                <div class="review-question">{{ question.questionText }}</div>
+
+                {% if attempt and attempt.answer %}
+                    <div class="review-answer">
+                        <strong>Ta réponse :</strong>
+                        <pre><code>{{ attempt.answer }}</code></pre>
+                    </div>
+                {% endif %}
+
+                {% if attempt and attempt.notes %}
+                    <div class="review-notes">
+                        <strong>Tes notes :</strong> {{ attempt.notes }}
+                    </div>
+                {% endif %}
+
+                <div class="review-correction">
+                    <button onclick="toggleEl('corr-{{ loop.index }}')" class="btn btn-small btn-outline">
+                        Voir la correction
+                    </button>
+                    <div id="corr-{{ loop.index }}" style="display:none" class="correction-box">
+                        <pre><code>{{ question.correction }}</code></pre>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+
+        <div class="review-actions">
+            <a href="{{ path('exercise_question', {id: exercise.id, position: 1}) }}"
+               class="btn btn-primary">🔄 Recommencer depuis le début</a>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleEl(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exercices{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Exercices</h1>
+            <p class="subtitle">Sélectionne un exercice pour commencer</p>
+        </div>
+
+        <div class="exercise-grid">
+            {% for exercise in exercises %}
+                <div class="exercise-card difficulty-{{ exercise.difficulty }}">
+
+                    <div class="card-header">
+                <span class="subject-badge">
+                    {{ exercise.subject.title }}
+                </span>
+                        <span class="difficulty-badge">
+                    {% for i in 1..exercise.difficulty %}⭐{% endfor %}
+                </span>
+                    </div>
+
+                    <h2 class="card-title">{{ exercise.title }}</h2>
+
+                    <div class="card-meta">
+                        <span>⏱ {{ exercise.estimatedMinutes }} min</span>
+                        <span>❓ {{ exercise.exerciseQuestion|length }} question{{ exercise.exerciseQuestion|length > 1 ? 's' : '' }}</span>
+                    </div>
+
+                    {% if exercise.documents|length > 0 %}
+                        <div class="card-docs">
+                            <span>📄 {{ exercise.documents|length }} document{{ exercise.documents|length > 1 ? 's' : '' }} disponible{{ exercise.documents|length > 1 ? 's' : '' }}</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="card-actions">
+                        <a href="{{ path('exercise_question', {id: exercise.id, position: 1}) }}"
+                           class="btn btn-primary">
+                            Commencer →
+                        </a>
+                        <a href="{{ path('exercise_review', {id: exercise.id}) }}"
+                           class="btn btn-secondary">
+                            Réviser
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
